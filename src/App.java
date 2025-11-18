@@ -10,14 +10,6 @@ public class App {
         };
         AutoSorter as = new AutoSorter(path , folders , extensions);
         as.sort();
-        
-        //File file = new File("C:\\Users\\cryss\\Downloads\\ciao");
-        
-    //    File[] files;
-    //    files = file.listFiles();
-    //    for(int i = 0 ; i < files.length ; i++)
-    //        System.out.println(files[i].toString());
-        
-        
+                
     }
 }

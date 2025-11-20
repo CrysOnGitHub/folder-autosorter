@@ -3,35 +3,35 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
+
 public class AutoSorter {
 
-    private String source_folder_path;
-    private String target_folders[]; 
-    private String extensions_of_target_folders[][];
+    private String sourceFolderPath;
+    private FolderRule foldersRules[];
 
 
-
-    AutoSorter(String source_folder_path, String target_folders[], String extensions_of_target_folders[][]){
-        this.source_folder_path = source_folder_path;
-        this.target_folders = target_folders;
-        this.extensions_of_target_folders = extensions_of_target_folders;
+    AutoSorter(String sourceFolderPath, FolderRule foldersRules[]){
+        this.sourceFolderPath = sourceFolderPath;
+        this.foldersRules = foldersRules;
     }
 
-    public String getSource_folder_path() {
-        return source_folder_path;
+    public String getSourceFolderPath() {
+        return sourceFolderPath;
     }
 
-    public void setSource_folder_path(String source_folder_path) {
-        this.source_folder_path = source_folder_path;
+    public void setSourceFolderPath(String sourceFolderPath) {
+        this.sourceFolderPath = sourceFolderPath;
     }
 
-    private void baseSorting(File source_folder, String folder_name , String extensions[]){
-        File target_folder = new File(source_folder.getPath() + "\\" + folder_name);
-        File[] files = source_folder.listFiles();
-        target_folder.mkdir();
+    private void baseSorting(File sourceFolder, String targetFolderName , String extensions[]){
+        File targetFolder = new File(sourceFolder.getPath() + File.separator + targetFolderName);
+        File[] files = sourceFolder.listFiles();
+        if(!targetFolder.exists())
+            targetFolder.mkdir();
+
+
         for(int i = 0; i < files.length ; i++){
-
-            //checking extension match by scrolling the String array
 
             boolean control = false;
             for(String extension : extensions){
@@ -43,7 +43,7 @@ public class AutoSorter {
 
             if(control){
                 try{
-                    Files.move(Paths.get(files[i].toString()), Paths.get(target_folder.getPath() + "\\" +  files[i].getName()) );
+                    Files.move(Paths.get(files[i].getPath()), Paths.get(targetFolder.getPath() + File.separator +  files[i].getName()) );
                 }catch(IOException e){
                     System.out.println(e.toString());
                 }              
@@ -53,17 +53,17 @@ public class AutoSorter {
 
     public int sort(){
 
-        File source_folder = new File(source_folder_path);
+        File sourceFolder = new File(sourceFolderPath);
 
-        if(!source_folder.exists()){
+        if(!sourceFolder.exists()){
             return -1; //entered path doesn't exist
-        }else if(source_folder.isFile())
+        }else if(sourceFolder.isFile())
             return -2; //entered path is a file/not a folder
-        else if(!source_folder.canWrite() && !source_folder.canWrite())
+        else if(!sourceFolder.canWrite() || !sourceFolder.canRead())
             return -3; //folder doesn't have read/write perms
         
-        for(int i = 0; i < target_folders.length; i++){
-            baseSorting(source_folder, target_folders[i], extensions_of_target_folders[i]);
+        for(int i = 0; i < foldersRules.length; i++){
+            baseSorting(sourceFolder, foldersRules[i].getTargetFolder() , foldersRules[i].getLinkedExtensions());
         }
         
         return 0; //Successfull

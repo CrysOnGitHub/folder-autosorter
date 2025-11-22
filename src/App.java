@@ -1,25 +1,29 @@
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Properties;
+
 public class App {
     public static void main(String[] args) throws Exception {
 
-        //testing
-        
-        String path = "C:\\Users\\cryss\\Downloads\\ciao";
-        String folders[] = {"Documenti" , "Audio" , "Immagini"};
-        String extensions[][] = {
-            {".pdf" , ".txt" , ".xlsx"},
-            {".mp3"} ,
-            {".jpeg"}
-        };
+        Properties props = new Properties();
+        props.load(new FileInputStream("autosorter.properties"));
 
-        FolderRule folderrules[] = new FolderRule[3];
-        for(int i = 0; i < folderrules.length ; i++){
-            folderrules[i] = new FolderRule(folders[i] , extensions[i]);
-            System.out.println(folderrules[i].toString());
+        String sourceFolderPath = null;
+        ArrayList<FolderRule> foldersRules = new ArrayList<FolderRule>();
+        for(String key : props.stringPropertyNames()){
+            if(!key.equals("folder_path")){
+                foldersRules.add(new FolderRule(key, props.getProperty(key).split(",")));
+            }else
+                sourceFolderPath = props.getProperty(key);
         }
 
+        System.out.println(sourceFolderPath + "\n");
+        FolderRule fr[] = foldersRules.toArray(new FolderRule[0]);
+        for(int i = 0 ; i < fr.length; i++){
+            System.out.println(fr[i]);
+        }
 
-        AutoSorter as = new AutoSorter(path , folderrules);
-        as.sort();
-                
+        AutoSorter as = new AutoSorter(sourceFolderPath, foldersRules.toArray(new FolderRule[0]));
+        as.sort();     
     }
 }

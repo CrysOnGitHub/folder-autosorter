@@ -1,6 +1,7 @@
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -23,7 +24,22 @@ public class App {
             System.out.println(fr[i]);
         }
 
-        AutoSorter as = new AutoSorter(sourceFolderPath, foldersRules.toArray(new FolderRule[0]));
-        as.sort();     
+        AutoSorter as = new AutoSorter(sourceFolderPath, foldersRules.toArray(new FolderRule[0])); 
+        
+        switch (as.sort()) {
+            case 0:
+                JOptionPane.showMessageDialog(null, "Operation completed in " + sourceFolderPath , "Message" , JOptionPane.INFORMATION_MESSAGE);
+                break;
+            case -1:
+                JOptionPane.showMessageDialog(null, "Entered path doesn't exist" , "Error!" , JOptionPane.ERROR_MESSAGE);
+                break;
+            case -2:
+                JOptionPane.showMessageDialog(null, "Entered path is a file or not a folder" , "Error!" , JOptionPane.ERROR_MESSAGE);
+                break;
+            case -3:
+                JOptionPane.showMessageDialog(null, "Folder doesn't have read/write perms" , "Error!" , JOptionPane.ERROR_MESSAGE);
+                break;
+            
+        }
     }
 }

@@ -1,18 +1,30 @@
-## Getting Started
+# AutoSorter
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+AutoSorter is a simple Java utility that automatically organizes files inside a folder based on custom rules defined by the user.  
+It reads sorting rules from a configuration file (`autosorter.properties`) and moves each file into a target subfolder depending on its extension.
 
-## Folder Structure
+This project uses plain Java (no frameworks) and is ideal as a lightweight personal automation tool.
 
-The workspace contains two folders by default, where:
+---
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## 🚀 Features
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+- Sort files automatically based on extension
+- Customizable sorting rules via `.properties` file
+- Creates target folders automatically if they do not exist
+- Error handling with status codes and popup messages
+- Non-destructive: files are only moved, not modified
+- Cross-platform (Windows / macOS / Linux)
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+---
 
-## Dependency Management
+## 🗂️ How It Works
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+You define file–extension rules in a `autosorter.properties` file.  
+Example:
+
+```properties
+folder_path=C:\\Users\\YourName\\Downloads
+Images=.jpg,.png,.jpeg
+Documents=.pdf,.txt,.docx
+Music=.mp3,.wav

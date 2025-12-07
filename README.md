@@ -75,9 +75,3 @@ AutoSorter/
 └── README.md
 ```
 
----
-
-## 🤝 Contributions
-
-Pull requests and improvements are welcome!
-
